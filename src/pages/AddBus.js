@@ -14,9 +14,18 @@ import { authenticate } from '../utilities/auth';
 
 let DataContext = createContext();
 
+function EventHandler() {
+    const map = useMapEvents({
+        onMapReady() {
+          map.off();
+          console.log(1)
+        },
+        
+    })
+}
 
 
-const LocationFinderDummy = () => {
+const LocationFinder = () => {
     
     let context = useContext(DataContext);
     /*async function getLocation(lat,lng){
@@ -47,18 +56,20 @@ function AddBus() {
   const [stations,setStations] = useState([]);
   const [lat,setLat] = useState(0);
   const [lng,setLng] = useState(0);
+  const [user, setUser] = useState()
 
   const mapRef = useRef()
 
-  let user;
+  
   const navigate = useNavigate();
 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-        if(user === undefined){
-            user = authenticate();
+        console.log(user,user.uid)
+        if(user === undefined || user === null || user.uid === undefined ){ 
+            setUser(authenticate());     
         }
         await setDoc(doc(db, 'buses',user.uid), {
             name: name,	
@@ -67,11 +78,10 @@ function AddBus() {
             user: user.uid,
             isTracking:false
         })
-
         navigate('/getmap');
       
     } catch (err) {
-      alert(err)
+      console.log(err)
     }
   }
 
@@ -79,22 +89,17 @@ function AddBus() {
     const auth = getAuth();
     onAuthStateChanged(auth, (currUser) => {
       if (currUser) {
-        user = currUser;
+        setUser(currUser)
+        
         // ...
       } else {
-        user = authenticate()
+        setUser(authenticate())
       }
     });
     
-  },[])
+  },[user])
 
-  useEffect(() => {
-      if(mapRef.current !== null && mapRef.current !== undefined){
-        setTimeout(() => { 
-            mapRef.current.leafletElement.invalidateSize(); 
-        }, 250); 
-      }
-  }, [mapRef.current])
+
   
 
     function setLines(){
@@ -107,6 +112,9 @@ function AddBus() {
     }
 
 
+    
+
+    
     
     
   return (
@@ -126,7 +134,7 @@ function AddBus() {
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
-                            <LocationFinderDummy />
+                            <LocationFinder />
                             {
                                 stations?.map((station,index)=>(
                                     <Marker position={[station.lat,station.long]} icon={stationIcon}>
@@ -136,6 +144,7 @@ function AddBus() {
                                     </Marker>
                                 ))
                             }
+                            <EventHandler />
                         </MapContainer>
                         <div>
                             Stations:
@@ -151,7 +160,7 @@ function AddBus() {
                 </Step>
                 <Step label="Confirmation">
                     <div className='relative'>
-                        <MapContainer center={[10,10]} zoom={10} scrollWheelZoom={false} style={{height:"60vh"}}>
+                        <MapContainer whenReady={(map)=>{map.target.invalidateSize()}} center={[10,10]} zoom={10} scrollWheelZoom={false} style={{height:"60vh"}}>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

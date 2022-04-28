@@ -1,6 +1,6 @@
 import {db,provider} from '../firebase'
-import {collection, addDoc,setDoc, Timestamp, doc} from 'firebase/firestore'
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { setDoc, doc} from 'firebase/firestore'
+import { getAuth, signInWithPopup } from "firebase/auth";
 
 async function authenticate(){
     const auth = getAuth();

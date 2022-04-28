@@ -1,35 +1,51 @@
-import { MapLayer } from "react-leaflet";
-import L from "leaflet";
+import { useEffect, useState } from "react";
+import L, { point } from "leaflet";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-routing-machine";
-import "lrm-google";
-import { withLeaflet } from "react-leaflet";
+import { useMap } from "react-leaflet";
+import "lrm-graphhopper"
 
-class Routing extends MapLayer {
-    
-  createLeafletElement() {
-    const { map } = this.props;
-    let leafletElement = L.Routing.control({
-      waypoints: [
-        L.latLng(16.506, 80.648),
-        L.latLng(17.384, 78.4866),
-        L.latLng(12.971, 77.5945)
-      ],
-      // router: new L.Routing.Google(),
-      lineOptions: {
-        styles: [
-          {
-            color: "blue",
-            opacity: 0.6,
-            weight: 4
-          }
-        ]
-      },
-      addWaypoints: false,
-      draggableWaypoints: false,
-      fitSelectedRoutes: false,
-      showAlternatives: false
-    }).addTo(map.leafletElement);
-    return leafletElement.getPlan();
-  }
+
+
+L.Marker.prototype.options.icon = L.icon({
+  iconUrl: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/fuel-pump_26fd.png",
+  iconSize: [32,45],  
+});
+
+  const Routing = ({ stations }) => {
+  const map = useMap();
+  
+
+ 
+  
+
+    useEffect(() => {
+      if (!map) return;
+
+          //console.log(stations)
+          const routingControl = L.Routing.control({
+          waypoints: 
+            stations
+          ,
+          routeWhileDragging: true,
+          lineOptions: {
+            styles: [{ color: "#F15152", weight: 5 }]
+          },
+          router: L.Routing.graphHopper(process.env.REACT_APP_MAP_KEY),
+          show: true,
+          showAlternatives: true,
+          addWaypoints: true, 
+          fitSelectedRoutes: true,
+        }).addTo(map);
+        routingControl.hide();
+        return () => map.removeControl(routingControl);
+      
+      
+
+
+    }, [map, stations]);   
+
+  return null;
 }
-export default withLeaflet(Routing);
+
+export default Routing;

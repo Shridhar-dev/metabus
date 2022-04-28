@@ -13,7 +13,7 @@ function BusMap() {
    const [loc,setLoc] =  useState([0,0]);
    const [loading,setLoading] =  useState(false);
    const [buses,setBuses] =  useState({});
- 
+   let stateCopy ={};
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -39,9 +39,10 @@ function BusMap() {
         coords:[doc.data().currentLocation.lat,doc.data().currentLocation.long],
         name:doc.data().name,
       }
-      let stateCopy = Object.assign({}, buses);
+      
+     
       stateCopy[doc.id] = bus;
-  
+      console.log(stateCopy)
       setBuses(stateCopy);
       
     }
@@ -69,7 +70,7 @@ function BusMap() {
           
           {
             Object.keys(buses).map((key, i)=>{
-       
+              
               return(
                 <Marker position={buses[key].coords} icon={busIcon} key={i}>
                   <Popup>
