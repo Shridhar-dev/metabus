@@ -42,7 +42,6 @@ function BusMap() {
       
      
       stateCopy[doc.id] = bus;
-      console.log(stateCopy)
       setBuses(stateCopy);
       
     }

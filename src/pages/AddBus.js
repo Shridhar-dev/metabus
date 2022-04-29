@@ -15,6 +15,7 @@ import { authenticate } from '../utilities/auth';
 let DataContext = createContext();
 
 function EventHandler() {
+    
     const map = useMapEvents({
         onMapReady() {
           map.off();
@@ -38,6 +39,7 @@ const LocationFinder = () => {
         
         click(e) {
            // getLocation(e.latlng.lat,e.latlng.lng);
+           
             context.setModal(true);
             context.setLat(e.latlng.lat);
             context.setLng(e.latlng.lng);
@@ -65,6 +67,7 @@ function AddBus() {
 
 
   const handleSubmit = async (e) => {
+      
     e.preventDefault()
     try {
         console.log(user,user.uid)
@@ -87,7 +90,9 @@ function AddBus() {
 
   useEffect(()=>{
     const auth = getAuth();
+   
     onAuthStateChanged(auth, (currUser) => {
+        
       if (currUser) {
         setUser(currUser)
         
@@ -97,7 +102,7 @@ function AddBus() {
       }
     });
     
-  },[user])
+  },[])
 
 
   
