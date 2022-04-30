@@ -9,7 +9,7 @@ import { useBeforeunload } from 'react-beforeunload';
 function Tracking() {
   const [id, setId] = useState()
   const [track, setTrack] = useState(false)
-  const [location, setLocation] = useState({lat:0,long:0})
+  const [location, setLocation] = useState({})
   let gid;
   
 
@@ -52,22 +52,13 @@ function Tracking() {
   
   async function startTracking() {
     setTrack(!track)
-    gid = navigator.geolocation.watchPosition(
-      position => {
-        setLocation({lat:position.coords.latitude,long:position.coords.longitude});  
-      }, 
-      error => console.log(error),
-      { 
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 10
-      }
-     );
+   
+    gid = navigator.geolocation.watchPosition((pos)=>{setLocation({lat:pos.coords.latitude,long:pos.coords.longitude})});
+
     updateDoc(doc(db, "buses", id), {
       isTracking:true,
       currentLocation: {
-          lat: location.lat,
+          lat: location.latitude,
           long: location.long,
       },
       

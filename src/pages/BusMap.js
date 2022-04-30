@@ -39,7 +39,7 @@ function BusMap() {
         coords:[doc.data().currentLocation.lat,doc.data().currentLocation.long],
         name:doc.data().name,
       }
-      
+      console.log(bus)
      
       stateCopy[doc.id] = bus;
       setBuses(stateCopy);
