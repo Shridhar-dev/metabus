@@ -29,7 +29,7 @@ L.Marker.prototype.options.icon = L.icon({
           ,
           routeWhileDragging: true,
           lineOptions: {
-            styles: [{ color: "#F15152", weight: 5 }]
+            styles: [{ color: "#1d4ed8", weight: 4 }]
           },
           router: L.Routing.graphHopper(process.env.REACT_APP_MAP_KEY),
           show: true,

@@ -58,7 +58,8 @@ function AddBus() {
   const [stations,setStations] = useState([]);
   const [lat,setLat] = useState(0);
   const [lng,setLng] = useState(0);
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
+  const [mapLoad, setMapLoad] = useState("none")
 
   const mapRef = useRef()
 
@@ -134,7 +135,7 @@ function AddBus() {
                 </Step>
                 <Step label="Bus stops">
                     <div className='relative'>
-                        <MapContainer ref={el => {mapRef.current = el}} center={[10,10]} zoom={10} scrollWheelZoom={false} style={{height:"60vh"}}>
+                        <MapContainer center={[10,10]} zoom={10} scrollWheelZoom={false} style={{height:"60vh"}}>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -142,7 +143,7 @@ function AddBus() {
                             <LocationFinder />
                             {
                                 stations?.map((station,index)=>(
-                                    <Marker position={[station.lat,station.long]} icon={stationIcon}>
+                                    <Marker position={[station.lat,station.long]} icon={stationIcon} key={index}>
                                         <Popup>
                                         A pretty CSS3 popup. <br /> Easily customizable.
                                         </Popup>

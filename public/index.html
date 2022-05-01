@@ -9,7 +9,7 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -17,6 +17,20 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 
+
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="metabus">
+    <meta name="apple-mobile-web-app-title" content="metabus">
+    <meta name="theme-color" content="rgb(29 78 216)">
+    <meta name="msapplication-navbutton-color" content="rgb(29 78 216)">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/3yfT6gX/Frame-1-2.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="https://i.ibb.co/3yfT6gX/Frame-1-2.png">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -41,5 +55,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("serviceWorker.js")
+        .then(function(registration) {
+          console.log("ServiceWorker registration successful with scope: ", registration.scope);
+        },function(err) {
+          console.log("ServiceWorker registration failed: ", err);
+        }
+        )
+      })
+    }
+    </script>
   </body>
 </html>
