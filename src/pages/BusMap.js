@@ -33,6 +33,7 @@ function BusMap() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
+    //console.log(doc.data())
     if(doc.data().currentLocation !== undefined){
       let bus = {
         id:doc.id,

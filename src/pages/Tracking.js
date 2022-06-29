@@ -54,14 +54,14 @@ function Tracking() {
     setTrack(!track)
    
     gid = navigator.geolocation.watchPosition((pos)=>{setLocation({lat:pos.coords.latitude,long:pos.coords.longitude})});
-
+    console.log(location)
     updateDoc(doc(db, "buses", id), {
       isTracking:true,
       currentLocation: {
-          lat: location.latitude,
+          lat: location.lat,
           long: location.long,
       },
-      
+    
     });
   }
 
